@@ -1,0 +1,5 @@
+<extension name="erltest">
+  <condition field="destination_number" expression="^5000$">
+    <action application="erlang" data="fs_router fsnode@127.0.0.1"/>
+  </condition>
+</extension>

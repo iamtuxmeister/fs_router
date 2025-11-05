@@ -1,0 +1,3 @@
+<param name="listen-ip" value="127.0.0.1"/>
+<param name="cookie" value="makeitwork"/>
+<param name="nodename" value="freeswitch@127.0.0.1"/>

@@ -1,0 +1,14 @@
+{application, fs_router,
+ [
+  {description, "FreeSWITCH Erlang Call Router"},
+  {vsn, "0.1.0"},
+  {modules, [fs_router_app,
+             fs_router_sup,
+             fs_connection,
+             fs_event_handler,
+             fs_call_fsm,
+             fs_util]},
+  {registered, [fs_connection, fs_event_handler]},
+  {applications, [kernel, stdlib]},
+  {mod, {fs_router_app, []}}
+ ]}.
