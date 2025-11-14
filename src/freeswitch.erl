@@ -170,6 +170,19 @@ event(Node, Events) when is_list(Events) ->
 	after ?TIMEOUT ->
 		timeout
 	end;
+%% Subscribe to events from FreeSWITCH
+event(Pid, Events) when is_pid(Pid), is_list(Events) ->
+    %% send subscription message to FreeSWITCH node
+    {event, Pid} ! list_to_tuple(lists:append([event | Events])),
+    receive
+        ok -> ok;
+        {error, Reason} -> {error, Reason}
+    after ?TIMEOUT ->
+        timeout
+    end;
+
+event(Pid, Event) when is_pid(Pid), is_atom(Event) ->
+    event(Pid, [Event]);
 event(Node, Event) when is_atom(Event) ->
 	event(Node, [Event]).
 

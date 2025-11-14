@@ -24,9 +24,21 @@ handle_info(ping, State) ->
             {noreply, State#{connected => false}}
     end;
 
+%% handle_info({nodeup, ?FS_NODE}, State) ->
+%%     io:format("[fs_connection] Node up: ~p~n", [?FS_NODE]),
+%%     {noreply, State#{connected => true}};
 handle_info({nodeup, ?FS_NODE}, State) ->
     io:format("[fs_connection] Node up: ~p~n", [?FS_NODE]),
-    {noreply, State#{connected => true}};
+    %% Subscribe to all events using self() PID
+    case freeswitch:event(self(), all) of
+        ok ->
+            io:format("[fs_connection] Subscribed to all events~n"),
+            {noreply, State#{connected => true}};
+        {error, Reason} ->
+            io:format("[fs_connection] Failed to subscribe to events: ~p~n", [Reason]),
+            {noreply, State}
+    end;
+
 
 handle_info({nodedown, ?FS_NODE}, State) ->
     io:format("[fs_connection] Node down: ~p~n", [?FS_NODE]),
